@@ -20,7 +20,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class SlidingBar extends Application {
+public class SlidingBar{
     static double heightBar = 200;
     static double widthBar = 280;
     static double heightEdge = 700;
@@ -37,11 +37,9 @@ public class SlidingBar extends Application {
     
     PauseButton pauseButton = new PauseButton();
     
-    @Override
-    public void start(Stage primaryStage) {
-        
+    public void play(Stage slidStage)
+    {
         Pane root = new Pane();
-        
         Label showTime = new Label();
         setLabel(showTime, 15, 15);
         showTime.setText(""+time);
@@ -65,10 +63,14 @@ public class SlidingBar extends Application {
         
         Scene scene = new Scene(root, 700, 700);
         
-        primaryStage.setTitle("Guitar Wizard");
-        primaryStage.setScene(scene);
+//        primaryStage.setTitle("Guitar Wizard");
+//        primaryStage.setScene(scene);
+//        //primaryStage.setResizable(false);
+//        primaryStage.show();
+        slidStage.setTitle("Guitar Wizard");
+        slidStage.setScene(scene);
         //primaryStage.setResizable(false);
-        primaryStage.show();
+        slidStage.show();
         
         canonD.playMusic();
         
@@ -170,7 +172,6 @@ public class SlidingBar extends Application {
         });
         
         background.start();
-        
     }
     
     public void setLabel(Label label,double x,double y){
@@ -187,11 +188,5 @@ public class SlidingBar extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void test() {
-        launch();
-    }
-    
-    public static void main(){
-        test();
-    }
+
 }

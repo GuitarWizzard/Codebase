@@ -18,8 +18,14 @@ import javafx.stage.Stage;
  * @author Louis Neen Oak kaw
  */
 public class Main extends Application {
-    private Stage primaryStage;
+    private static Stage primaryStage;
     private Pane mainLayout;
+    
+    
+    public static Stage getPrimaryStage()
+    {
+        return primaryStage;
+    }
     
     @Override
     public void start(Stage primaryStage) throws IOException {

@@ -4,10 +4,9 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.Pane?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.mainView.mainViewController">
    <children>
       <ComboBox layoutX="101.0" layoutY="338.0" prefHeight="25.0" prefWidth="497.0" promptText="Select song..." />
-      <Button layoutX="324.0" layoutY="392.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="50.0" text="Play" />
+      <Button layoutX="324.0" layoutY="392.0" mnemonicParsing="false" onAction="#test" prefHeight="35.0" prefWidth="50.0" text="Play" />
    </children>
 </Pane>
