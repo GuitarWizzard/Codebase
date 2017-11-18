@@ -25,6 +25,8 @@ public class SlidingBar extends Application {
     static double widthBar = 280;
     static double heightEdge = 700;
     static double widthEdge = 700;
+    static double widthAlphabet = 175;
+    static double heightAlphabet = 125;
     static double gap = 280;
     static double gapChord = 70;
     int count = 0;
@@ -65,6 +67,10 @@ public class SlidingBar extends Application {
             root.getChildren().add(canonD.bar.get(i).img);
         }
         
+        for(int i=0;i<canonD.alphabet.size();i++){
+            root.getChildren().add(canonD.alphabet.get(i).img);
+        }
+        
         Scene scene = new Scene(root, 700, 700);
         
         primaryStage.setTitle("Guitar Wizard");
@@ -84,6 +90,10 @@ public class SlidingBar extends Application {
                 if(!checkPause){
                     for(int i=0;i<canonD.bar.size();i++){
                         canonD.bar.get(i).slide();
+                    }
+                    
+                    for(int i=0;i<canonD.alphabet.size();i++){
+                        canonD.alphabet.get(i).slide();
                     }
                 }
                 
