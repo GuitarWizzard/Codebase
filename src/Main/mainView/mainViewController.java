@@ -1,31 +1,36 @@
 package Main.mainView;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import slidingbar.SlidingBar;
-import slidingbar.Fingerboard;
 /**
  *
  * @author Louis Neen Oak Kaw
  */
-public class mainViewController {
+public class mainViewController implements Initializable{
     ObservableList<String> songList = FXCollections.observableArrayList("Bigass","ThatWhatILike");
     
     @FXML
     private ComboBox songListBox;
     
-    private void initialize() {
-        songListBox.setValue("Bigass");
-        songListBox.setItems(songList);
-    }
+ 
     @FXML
-    public void test()
+    public void play()
     {
-        SlidingBar test = new SlidingBar();
+        SlidingBar songPlayer = new SlidingBar();
         Stage stage = Main.Main.getPrimaryStage();
-        test.play(stage);
+        String song = (String) songListBox.getValue();
+        songPlayer.play(stage,song);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        songListBox.setItems(songList);
     }
 }

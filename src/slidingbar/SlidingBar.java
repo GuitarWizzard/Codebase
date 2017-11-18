@@ -33,12 +33,13 @@ public class SlidingBar{
     boolean checkPause = false;
     boolean checkMute = false;
     
-    Music canonD = new Music("ThatWhatILike");
+    
     
     PauseButton pauseButton = new PauseButton();
     
-    public void play(Stage slidStage)
+    public void play(Stage slidStage,String song)
     {
+        Music canonD = new Music(song);
         Pane root = new Pane();
         Label showTime = new Label();
         setLabel(showTime, 15, 15);
