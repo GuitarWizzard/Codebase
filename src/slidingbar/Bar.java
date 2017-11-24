@@ -13,13 +13,12 @@ public class Bar {
     private int count = 0;
     public ImageView img;
 
-    public Bar(double width,double height,String path,double x,double y,int count,double movement){
+    public Bar(double width,double height,String path,double x,double y,double movement){
         img = new ImageView(new Image(path));
         img.setFitHeight(height);
         img.setFitWidth(width);
         img.setY(y);
         img.setX(x);
-        this.count = count;
         this.movement = movement;
         defaultMovement = movement; 
     }
@@ -34,6 +33,5 @@ public class Bar {
     
     public void slide(){
         img.setX(img.getX()-movement );
-        
     }
 }

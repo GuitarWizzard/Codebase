@@ -1,12 +1,17 @@
 package slidingbar;
 
+import org.apache.commons.io.FileUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import static slidingbar.SlidingBar.heightBar;
@@ -14,13 +19,15 @@ import static slidingbar.SlidingBar.widthBar;
 import static slidingbar.SlidingBar.heightEdge;
 import static slidingbar.SlidingBar.widthEdge;
 import static slidingbar.SlidingBar.gap;
-import static slidingbar.SlidingBar.gapChord;
+import static slidingbar.SlidingBar.heightAlphabet;
+import static slidingbar.SlidingBar.widthAlphabet;
 
 public class Music {
     
     private String name;
     public int SIZE;
     public List<Bar> bar = new ArrayList<Bar>();
+    public List<Alphabet> alphabet = new ArrayList<Alphabet>();
     List<String> chord = new ArrayList<String>();
     MediaPlayer mediaPlayer;
     public double normalSpeed;
@@ -30,17 +37,21 @@ public class Music {
     boolean pause;
     
     public Music(String name){
-        this.name = name;
-        scannerChord(name);
-        bpm = scannerBpm(name);
-        movement = (((bpm/2)*widthBar)/60)/60;
-        System.out.println(movement);
-        SIZE = 100;
-        normalSpeed = 1.0;
-        createBlock();
-        mediaPlayer = new MediaPlayer(new Media(new File("music/"+name+".mp3").toURI().toString()));
-        mediaPlayer.setVolume(0.5);
-        pause = false;
+        try {
+            this.name = name;
+            scannerChord(name);
+            bpm = scannerBpm(name);
+            movement = (((bpm/2)*widthBar)/60)/60;
+            downloadMusic(name);
+            SIZE = 100;
+            normalSpeed = 1.0;
+            createBlock();
+            mediaPlayer = new MediaPlayer(new Media(new File("music/"+name+".mp3").toURI().toString()));
+            mediaPlayer.setVolume(0.5);
+            pause = false;
+        } catch (IOException ex) {
+            Logger.getLogger(Music.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void playMusic(){
@@ -70,24 +81,33 @@ public class Music {
     public void createBlock(){
         
         for(int i=0;i<chord.size();i++){
-            if(chord.get(i).equals("-"))
-                for(int j=0;j<5;j++){
-                    if(j%4==0)
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_front.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
-                    else if(j%4==3)
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_end.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
+            if(chord.get(i).equals("-")){
+                    if(i%4==0)
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_front.png",widthEdge+(gap*i),heightEdge-heightBar,movement));
+                    else if(i%4==3)
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_end.png",widthEdge+(gap*i),heightEdge-heightBar,movement));
                     else
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_mid.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_mid.png",widthEdge+(gap*i),heightEdge-heightBar,movement));
+            }
+            else{
+                if(chord.get(i).length()>1&&chord.get(i).charAt(1)=='#'){
+                    alphabet.add(new Alphabet(chord.get(i).substring(0, 1)+"_"+chord.get(i).substring(2,chord.get(i).length()),
+                            widthAlphabet, heightAlphabet, widthEdge+(gap*i), heightEdge-heightBar+20, movement));
+                }else{
+                    alphabet.add(new Alphabet(chord.get(i),
+                            widthAlphabet, heightAlphabet, widthEdge+(gap*i), heightEdge-heightBar+20, movement));
                 }
-            else
-                for(int j=0;j<5;j++){
-                    if(j%4==0)
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/green_front.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
-                    else if(j%4==3)
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_end.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
+
+                    if(i%4==0)
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/green_front.png",widthEdge+(gap*i),heightEdge-heightBar,movement));
+                    else if(i%4==2)
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/green_mid.png",widthEdge+(gap*i),heightEdge-heightBar,movement));
+                    else if(i%4==3)
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_end.png",widthEdge+(gap*i),heightEdge-heightBar,movement));
                     else
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_mid.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
-                }
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_mid.png",widthEdge+(gap*i),heightEdge-heightBar,movement));
+                
+            }
             
         }
         
@@ -151,6 +171,10 @@ public class Music {
             }
             index++;
         }
+    }
+    
+    public void downloadMusic(String name) throws IOException{
+        Download.DownloadMusic(name);
     }
     
 }

@@ -1,11 +1,13 @@
 package slidingbar;
 
+import org.apache.commons.io.FileUtils;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -20,29 +22,33 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class SlidingBar extends Application {
+public class SlidingBar {
     static double heightBar = 200;
     static double widthBar = 280;
     static double heightEdge = 700;
     static double widthEdge = 700;
-    static double gap = 280;
-    static double gapChord = 70;
+    static double widthAlphabet = 175;
+    static double heightAlphabet = 125;
+    static double gap = 70;
     int count = 0;
     int time = 0;
+    int target = 0;
+    int barTarget =0;
     boolean checkSprite = false;
     boolean checkPause = false;
     boolean checkMute = false;
     
-    Music canonD = new Music("ThatWhatILike");
+    Music song ;
     
     Guide guide = new Guide("A");
     
     PauseButton pauseButton = new PauseButton();
     
-    @Override
-    public void start(Stage primaryStage) {
+    public void play(Stage primaryStage,String songName) {
         
         Pane root = new Pane();
+        
+        song = new Music(songName);
         
         Label showTime = new Label();
         setLabel(showTime, 15, 15);
@@ -57,12 +63,16 @@ public class SlidingBar extends Application {
         
         root.getChildren().addAll(new Fingerboard().img,showTime,up,down,pauseButton.img,guide.img);
         
-        changeGuide(canonD.chord.get(time));
+        changeGuide(song.chord.get(time));
         
-        canonD.createBlock();
+        song.createBlock();
         
-        for(int i=0;i<canonD.bar.size();i++){
-            root.getChildren().add(canonD.bar.get(i).img);
+        for(int i=0;i<song.bar.size();i++){
+            root.getChildren().add(song.bar.get(i).img);
+        }
+        
+        for(int i=0;i<song.alphabet.size();i++){
+            root.getChildren().add(song.alphabet.get(i).img);
         }
         
         Scene scene = new Scene(root, 700, 700);
@@ -72,18 +82,22 @@ public class SlidingBar extends Application {
         //primaryStage.setResizable(false);
         primaryStage.show();
         
-        canonD.playMusic();
+        song.playMusic();
         
         AnimationTimer background = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 // update label
-                showTime.setText("x"+canonD.normalSpeed);
+                showTime.setText("x"+song.normalSpeed);
                 // time
                 
                 if(!checkPause){
-                    for(int i=0;i<canonD.bar.size();i++){
-                        canonD.bar.get(i).slide();
+                    for(int i=0;i<song.bar.size();i++){
+                        song.bar.get(i).slide();
+                    }
+                    
+                    for(int i=0;i<song.alphabet.size();i++){
+                        song.alphabet.get(i).slide();
                     }
                 }
                 
@@ -91,20 +105,23 @@ public class SlidingBar extends Application {
                 if(count==60){
                    time++;
                    count=0;
-                   if(time<canonD.chord.size())
-                        changeGuide(canonD.chord.get(time));
-                  
                 }
+                //System.out.println(canonD.bar.get(target*4).img.getX()+","+canonD.bar.get((target+1)*4).img.getX()+"          "+target);
                 
-               
+                if(song.bar.get(target).img.getX()<=0){
+                    if(target<song.chord.size()&&!song.chord.get(target).equals("-")){
+                        changeGuide(song.chord.get(target));
+                    }
+                    target++;
+                }
                 
                 // increase and decrease button
                 up.setOnAction(new EventHandler<ActionEvent>() {
             
                     @Override
                     public void handle(ActionEvent event) {
-                        if(canonD.mediaPlayer.getVolume()<=1)
-                            canonD.mediaPlayer.setVolume(canonD.mediaPlayer.getVolume()+0.1);
+                        if(song.mediaPlayer.getVolume()<=1)
+                            song.mediaPlayer.setVolume(song.mediaPlayer.getVolume()+0.1);
                         
                     }
                 });
@@ -113,8 +130,8 @@ public class SlidingBar extends Application {
             
                     @Override
                     public void handle(ActionEvent event) {
-                        if(canonD.mediaPlayer.getVolume()>=0)
-                            canonD.mediaPlayer.setVolume(canonD.mediaPlayer.getVolume()-0.1);
+                        if(song.mediaPlayer.getVolume()>=0)
+                            song.mediaPlayer.setVolume(song.mediaPlayer.getVolume()-0.1);
                     }
                 });
                
@@ -129,12 +146,12 @@ public class SlidingBar extends Application {
             switch(keyEvent.getCode().toString()){
                 case "P":
                     if(pauseButton.count)
-                        canonD.mediaPlayer.play();
+                        song.mediaPlayer.play();
                     else
-                        canonD.mediaPlayer.pause();
+                        song.mediaPlayer.pause();
                     if(checkMute&&checkPause){
                         checkMute=!checkMute;
-                        canonD.mediaPlayer.setMute(checkMute);
+                        song.mediaPlayer.setMute(checkMute);
                     }
                     root.getChildren().remove(pauseButton.img);
                     pauseButton.spriteButton();
@@ -142,20 +159,20 @@ public class SlidingBar extends Application {
                     checkPause=!checkPause;
                     break;
                 case "X":
-                    canonD.increasePlaybackSpeed();
-                    for(int i=0;i<canonD.bar.size();i++){
-                        canonD.bar.get(i).increaseSpeed();
+                    song.increasePlaybackSpeed();
+                    for(int i=0;i<song.bar.size();i++){
+                        song.bar.get(i).increaseSpeed();
                     }
                     break;
                 case "Z":
-                    canonD.decreasePlaybackSpeed();
-                    for(int i=0;i<canonD.bar.size();i++){
-                        canonD.bar.get(i).decreaseSpeed();
+                    song.decreasePlaybackSpeed();
+                    for(int i=0;i<song.bar.size();i++){
+                        song.bar.get(i).decreaseSpeed();
                     }
                     break;
                 case "M":
                     checkMute=!checkMute;
-                    canonD.mediaPlayer.setMute(checkMute);
+                    song.mediaPlayer.setMute(checkMute);
                     root.getChildren().remove(pauseButton.img);
                     pauseButton.muteButton();
                     root.getChildren().add(pauseButton.img);
@@ -194,11 +211,5 @@ public class SlidingBar extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void test() {
-        launch();
-    }
-    
-    public static void main(){
-        test();
-    }
+
 }
