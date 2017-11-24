@@ -9,8 +9,7 @@ public class Alphabet {
     public double movement = 0;
     public double defaultMovement = 0;
     public Alphabet(String name,double width,double height,double x,double y,double movement){
-        //img = new ImageView(new Image("file:Alphabet/"+name.charAt(0)+"/"+name+".png"));
-        img = new ImageView(new Image("file:Alphabet/A/A_.png"));
+        img = new ImageView(new Image("file:Alphabet/"+name.charAt(0)+"/"+name+".png"));
         img.setFitHeight(height);
         img.setFitWidth(width);
         img.setY(y);

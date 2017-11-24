@@ -74,7 +74,7 @@ public class Music {
         
         for(int i=0;i<chord.size();i++){
             if(chord.get(i).equals("-"))
-                for(int j=0;j<5;j++){
+                for(int j=0;j<4;j++){
                     if(j%4==0)
                         bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_front.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,movement));
                     else if(j%4==3)
@@ -91,7 +91,7 @@ public class Music {
                             widthAlphabet, heightAlphabet, widthEdge+(gap*i), heightEdge-heightBar+20, movement));
                 }
                 
-                for(int j=0;j<5;j++){
+                for(int j=0;j<4;j++){
                     if(j%4==0)
                         bar.add(new Bar(widthBar,heightBar,"/slidingbar/green_front.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,movement));
                     else if(j%4==3)

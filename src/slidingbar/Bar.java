@@ -33,6 +33,5 @@ public class Bar {
     
     public void slide(){
         img.setX(img.getX()-movement );
-        
     }
 }

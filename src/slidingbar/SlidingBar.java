@@ -31,6 +31,8 @@ public class SlidingBar extends Application {
     static double gapChord = 70;
     int count = 0;
     int time = 0;
+    int target = 0;
+    int barTarget =0;
     boolean checkSprite = false;
     boolean checkPause = false;
     boolean checkMute = false;
@@ -65,6 +67,7 @@ public class SlidingBar extends Application {
         
         for(int i=0;i<canonD.bar.size();i++){
             root.getChildren().add(canonD.bar.get(i).img);
+            System.out.println(canonD.bar.get(i).img.getX());
         }
         
         for(int i=0;i<canonD.alphabet.size();i++){
@@ -101,12 +104,16 @@ public class SlidingBar extends Application {
                 if(count==60){
                    time++;
                    count=0;
-                   if(time<canonD.chord.size())
-                        changeGuide(canonD.chord.get(time));
-                  
                 }
+                //System.out.println(canonD.bar.get(target*4).img.getX()+","+canonD.bar.get((target+1)*4).img.getX()+"          "+target);
                 
-               
+                if(canonD.bar.get(target*4).img.getX()<=0){
+                    if(target<canonD.chord.size()&&!canonD.chord.get(target).equals("-")){
+                        System.out.println(canonD.chord.get(target));
+                        changeGuide(canonD.chord.get(target));
+                    }
+                    target++;
+                }
                 
                 // increase and decrease button
                 up.setOnAction(new EventHandler<ActionEvent>() {
