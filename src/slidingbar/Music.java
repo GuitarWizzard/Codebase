@@ -15,12 +15,15 @@ import static slidingbar.SlidingBar.heightEdge;
 import static slidingbar.SlidingBar.widthEdge;
 import static slidingbar.SlidingBar.gap;
 import static slidingbar.SlidingBar.gapChord;
+import static slidingbar.SlidingBar.heightAlphabet;
+import static slidingbar.SlidingBar.widthAlphabet;
 
 public class Music {
     
     private String name;
     public int SIZE;
     public List<Bar> bar = new ArrayList<Bar>();
+    public List<Alphabet> alphabet = new ArrayList<Alphabet>();
     List<String> chord = new ArrayList<String>();
     MediaPlayer mediaPlayer;
     public double normalSpeed;
@@ -71,23 +74,32 @@ public class Music {
         
         for(int i=0;i<chord.size();i++){
             if(chord.get(i).equals("-"))
-                for(int j=0;j<5;j++){
+                for(int j=0;j<4;j++){
                     if(j%4==0)
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_front.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_front.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,movement));
                     else if(j%4==3)
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_end.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_end.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,movement));
                     else
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_mid.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_mid.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,movement));
                 }
-            else
-                for(int j=0;j<5;j++){
+            else{
+                if(chord.get(i).length()>1&&chord.get(i).charAt(1)=='#'){
+                    alphabet.add(new Alphabet(chord.get(i).substring(0, 1)+"_"+chord.get(i).substring(2,chord.get(i).length()),
+                            widthAlphabet, heightAlphabet, widthEdge+(gap*i), heightEdge-heightBar+20, movement));
+                }else{
+                    alphabet.add(new Alphabet(chord.get(i),
+                            widthAlphabet, heightAlphabet, widthEdge+(gap*i), heightEdge-heightBar+20, movement));
+                }
+                
+                for(int j=0;j<4;j++){
                     if(j%4==0)
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/green_front.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/green_front.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,movement));
                     else if(j%4==3)
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_end.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_end.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,movement));
                     else
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_mid.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_mid.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,movement));
                 }
+            }
             
         }
         

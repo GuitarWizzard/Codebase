@@ -12,7 +12,6 @@ public class Guide {
     }
     
     public void setImage(String name){
-        System.out.println("file:chordImage/"+name.charAt(0)+"/"+name+".png");
         img.setImage(new Image("file:chordImage/"+name.charAt(0)+"/"+name+".png"));
         
     }
