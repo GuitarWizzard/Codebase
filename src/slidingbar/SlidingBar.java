@@ -29,7 +29,12 @@ public class SlidingBar {
     static double widthEdge = 700;
     static double widthAlphabet = 175;
     static double heightAlphabet = 125;
+<<<<<<< HEAD
     static double gap = 70;
+=======
+    static double gap = 280;
+    static double gapChord = 70;
+>>>>>>> f6b2450c7a8750738f7a46d4e119bc1ccf13db0f
     int count = 0;
     int time = 0;
     int target = 0;
@@ -69,6 +74,10 @@ public class SlidingBar {
         
         for(int i=0;i<song.bar.size();i++){
             root.getChildren().add(song.bar.get(i).img);
+<<<<<<< HEAD
+=======
+            System.out.println(song.bar.get(i).img.getX());
+>>>>>>> f6b2450c7a8750738f7a46d4e119bc1ccf13db0f
         }
         
         for(int i=0;i<song.alphabet.size();i++){
@@ -108,8 +117,14 @@ public class SlidingBar {
                 }
                 //System.out.println(canonD.bar.get(target*4).img.getX()+","+canonD.bar.get((target+1)*4).img.getX()+"          "+target);
                 
+<<<<<<< HEAD
                 if(song.bar.get(target).img.getX()<=0){
                     if(target<song.chord.size()&&!song.chord.get(target).equals("-")){
+=======
+                if(song.bar.get(target*4).img.getX()<=0){
+                    if(target<song.chord.size()&&!song.chord.get(target).equals("-")){
+                        System.out.println(song.chord.get(target));
+>>>>>>> f6b2450c7a8750738f7a46d4e119bc1ccf13db0f
                         changeGuide(song.chord.get(target));
                     }
                     target++;
