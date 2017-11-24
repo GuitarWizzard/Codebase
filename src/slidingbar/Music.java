@@ -38,7 +38,7 @@ public class Music {
         SIZE = 100;
         normalSpeed = 1.0;
         createBlock();
-        mediaPlayer = new MediaPlayer(new Media(new File("/music/"+name+".mp3").toURI().toString()));
+        mediaPlayer = new MediaPlayer(new Media(new File("music/"+name+".mp3").toURI().toString()));
         mediaPlayer.setVolume(0.5);
         pause = false;
     }
@@ -73,40 +73,32 @@ public class Music {
             if(chord.get(i).equals("-"))
                 for(int j=0;j<5;j++){
                     if(j%4==0)
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_front.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar-10,i,movement));
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_front.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
                     else if(j%4==3)
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_end.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar-10,i,movement));
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_end.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
                     else
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_mid.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar-10,i,movement));
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_mid.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
                 }
             else
                 for(int j=0;j<5;j++){
                     if(j%4==0)
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/green_front.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar-10,i,movement));
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/green_front.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
                     else if(j%4==3)
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_end.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar-10,i,movement));
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_end.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
                     else
-                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_mid.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar-10,i,movement));
+                        bar.add(new Bar(widthBar,heightBar,"/slidingbar/red_mid.png",widthEdge+(gap*i)+(j*gapChord),heightEdge-heightBar,i,movement));
                 }
             
         }
         
     }
     
-    public void generateBlock(){
-        if(SIZE%2==0)
-            bar.add(new Bar(widthBar,heightBar,"/slidingbar/_green.png",widthEdge,heightEdge-heightBar-10,SIZE,movement));
-        else
-            bar.add(new Bar(widthBar,heightBar,"/slidingbar/_red.png",widthEdge,heightEdge-heightBar-10,SIZE,movement));
-        SIZE++;
-    
-    }
-    
     public int scannerBpm(String name){
         BufferedReader br;
+        String filePath = new File("").getAbsolutePath();
         int bpm=0;
         try {
-            br = new BufferedReader(new FileReader("/Bpm/"+name+".txt"));
+            br = new BufferedReader(new FileReader("Bpm/"+name+".txt"));
             try {
                 String x;
                 while ( (x = br.readLine()) != null ) {
@@ -127,9 +119,10 @@ public class Music {
     
     public void scannerChord(String name){
         BufferedReader br;
+        String filePath = new File("").getAbsolutePath();
         String line="";
         try {
-            br = new BufferedReader(new FileReader("/Chord/"+name+".txt"));
+            br = new BufferedReader(new FileReader(filePath+"/Chord/"+name+".txt"));
             try {
                 String x;
                 while ( (x = br.readLine()) != null ) {

@@ -20,7 +20,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class SlidingBar{
+public class SlidingBar extends Application {
     static double heightBar = 200;
     static double widthBar = 280;
     static double heightEdge = 700;
@@ -33,14 +33,17 @@ public class SlidingBar{
     boolean checkPause = false;
     boolean checkMute = false;
     
+    Music canonD = new Music("ThatWhatILike");
     
+    Guide guide = new Guide("A");
     
     PauseButton pauseButton = new PauseButton();
     
-    public void play(Stage slidStage,String song)
-    {
-        Music canonD = new Music(song);
+    @Override
+    public void start(Stage primaryStage) {
+        
         Pane root = new Pane();
+        
         Label showTime = new Label();
         setLabel(showTime, 15, 15);
         showTime.setText(""+time);
@@ -52,9 +55,9 @@ public class SlidingBar{
         up.setText("+");
         down.setText("-");
         
-        root.getChildren().addAll(new Fingerboard().img,showTime,up,down,pauseButton.img);
+        root.getChildren().addAll(new Fingerboard().img,showTime,up,down,pauseButton.img,guide.img);
         
-        
+        changeGuide(canonD.chord.get(time));
         
         canonD.createBlock();
         
@@ -64,22 +67,12 @@ public class SlidingBar{
         
         Scene scene = new Scene(root, 700, 700);
         
-//        primaryStage.setTitle("Guitar Wizard");
-//        primaryStage.setScene(scene);
-//        //primaryStage.setResizable(false);
-//        primaryStage.show();
-        slidStage.setTitle("Guitar Wizard");
-        slidStage.setScene(scene);
+        primaryStage.setTitle("Guitar Wizard");
+        primaryStage.setScene(scene);
         //primaryStage.setResizable(false);
-        slidStage.show();
+        primaryStage.show();
         
         canonD.playMusic();
-        
-        for(int i=0;i<canonD.bar.size();i++){
-            //root.getChildren().remove(canonD.bar.get(i).img);
-            //canonD.bar.get(i).slide();
-            //root.getChildren().add(canonD.bar.get(i).img);         
-        }
         
         AnimationTimer background = new AnimationTimer() {
             @Override
@@ -95,12 +88,11 @@ public class SlidingBar{
                 }
                 
                 count++;
-                if(count==120){
+                if(count==60){
                    time++;
                    count=0;
-                   //Toolkit.getDefaultToolkit().beep();
-                   //canonD.generateBlock();
-                   //root.getChildren().add(canonD.bar.get(canonD.bar.size()-1).img);
+                   if(time<canonD.chord.size())
+                        changeGuide(canonD.chord.get(time));
                   
                 }
                 
@@ -173,6 +165,7 @@ public class SlidingBar{
         });
         
         background.start();
+        
     }
     
     public void setLabel(Label label,double x,double y){
@@ -186,8 +179,26 @@ public class SlidingBar{
         button.setMinHeight(30);
         button.setMinWidth(30);
     }
+    
+    public void changeGuide(String name){
+        if(name.length()>1&&name.charAt(1)=='#'){
+            guide.setImage(name.substring(0, 1)+"_"+name.substring(2,name.length()));
+        }else if(name.equals("-")){
+            
+        }
+        else{
+            guide.setImage(name);
+        }
+            
+    }
     /**
      * @param args the command line arguments
      */
-
+    public static void test() {
+        launch();
+    }
+    
+    public static void main(){
+        test();
+    }
 }

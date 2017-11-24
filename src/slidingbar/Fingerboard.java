@@ -9,7 +9,7 @@ public class Fingerboard {
         img = new ImageView(new Image("/slidingbar/fingerboard.jpg"));
         img.setFitHeight(200);
         img.setFitWidth(700);
-        img.setY(700-img.getFitHeight()-10);
+        img.setY(700-img.getFitHeight());
         img.setX(0);
     }
 }
