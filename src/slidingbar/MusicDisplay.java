@@ -154,7 +154,10 @@ public class MusicDisplay {
         int index = 0,before = 0;
         while(index<line.length()){
             if(line.charAt(index)=='*'){
-                chord.add(line.substring(before,index));
+                if(line.charAt(before)=='|')
+                    chord.add(line.substring(before+1,index));
+                else
+                    chord.add(line.substring(before,index));
                 before=index+1;
             }
             index++;
