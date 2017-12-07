@@ -29,7 +29,10 @@ public class SlidingBar {
     static double widthEdge = 700;
     static double widthAlphabet = 175;
     static double heightAlphabet = 125;
+    static double widthSoloBar = 35;
+    static double gapBar = 280;
     static double gap = 70;
+    static double gapSolo = 35;
     int count = 0;
     int time = 0;
     int target = 0;
@@ -65,9 +68,9 @@ public class SlidingBar {
         
         root.getChildren().addAll(new Fingerboard().img,showTime,up,down,pauseButton.img,guide.img);
         
-        changeGuide(song.chord.get(time));
         
-        song.createBlock();
+        //changeGuide(song.chord.get(time));
+
         /*
         for(int i=0;i<song.chord.size();i++){
             System.out.println(song.chord.get(i));
@@ -79,6 +82,10 @@ public class SlidingBar {
         
         for(int i=0;i<song.alphabet.size();i++){
             root.getChildren().add(song.alphabet.get(i).img);
+        }
+        
+        for(int i=0;i<song.number.size();i++){
+            root.getChildren().add(song.number.get(i).img);
         }
         
         Scene scene = new Scene(root, 700, 700);
@@ -105,6 +112,10 @@ public class SlidingBar {
                     for(int i=0;i<song.alphabet.size();i++){
                         song.alphabet.get(i).slide();
                     }
+                    
+                    for(int i=0;i<song.number.size();i++){
+                        song.number.get(i).slide();
+                    }
                 }
                 
                 count++;
@@ -113,14 +124,14 @@ public class SlidingBar {
                    count=0;
                 }
                 //System.out.println(canonD.bar.get(target*4).img.getX()+","+canonD.bar.get((target+1)*4).img.getX()+"          "+target);
-                
+                /*
                 if(song.bar.get(target).img.getX()<=0&&target<song.chord.size()){
                     if(!song.chord.get(target).equals("-")){
-                        changeGuide(song.chord.get(target));
+                        //changeGuide(song.chord.get(target));
                     }
                     target++;
                 }
-                
+                */
                 // increase and decrease button
                 up.setOnAction(new EventHandler<ActionEvent>() {
             

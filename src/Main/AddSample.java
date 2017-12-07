@@ -14,20 +14,21 @@ public class AddSample {
     User test = new User("test","1234","1234");
     User neen = new User("patthawee chumpuvorn","admin","admin");
     User louis = new User("louisza","louis","louis"); 
-    Music ThatWhatILike = new Music("ThatWhatILike",neen);
+    Music ThatWhatILike = new Music("Rabbit",louis);
     String chordThatWhatILike = "";
     int bpmThatWhatILike;
     
     public void start(){
-        neen.setMusic(ThatWhatILike);
-        chordThatWhatILike = scannerChord("ThatWhatILike");
-        ThatWhatILike.setChord(chordThatWhatILike);
-        bpmThatWhatILike = scannerBpm("ThatWhatILike");
-        ThatWhatILike.setBpm(bpmThatWhatILike);
+        louis.setMusic(ThatWhatILike);
+        //chordThatWhatILike = scannerChord("ThatWhatILike");
+        ThatWhatILike.setChord("LOL");
+        //bpmThatWhatILike = scannerBpm("ThatWhatILike");
+        ThatWhatILike.setBpm(120);
+        System.out.println("haha");
         
-        addUser(neen);
+        //addUser(neen);
         addUser(louis);
-        addUser(test);
+        //addUser(test);
     }
     
     public void addUser(User user){

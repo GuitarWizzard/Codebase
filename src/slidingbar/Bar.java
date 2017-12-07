@@ -49,5 +49,11 @@ public class Bar {
         addImg("/slidingbar/green_front.png");
         addImg("/slidingbar/green_mid.png");
         addImg("/slidingbar/green_end.png");
+        
+        addImg("/slidingbar/solo_front.png");
+        addImg("/slidingbar/solo_mid.png");
+        addImg("/slidingbar/solo_end.png");
+        
+        
     }
 }

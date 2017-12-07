@@ -1,4 +1,3 @@
-
 package slidingbar;
 
 import javafx.scene.image.Image;
