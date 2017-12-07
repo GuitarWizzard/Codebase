@@ -14,7 +14,7 @@ import slidingbar.SlidingBar;
  * @author Louis Neen Oak Kaw
  */
 public class mainViewController implements Initializable{
-    ObservableList<String> songList = FXCollections.observableArrayList("Bigass","ThatWhatILike");
+    ObservableList<String> songList = FXCollections.observableArrayList("Rabbit","ThatWhatILike");
     
     @FXML
     private ComboBox songListBox;

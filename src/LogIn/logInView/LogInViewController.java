@@ -16,6 +16,9 @@ import Database.Connection;
 import Database.Music;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -29,24 +32,32 @@ public class LogInViewController  {
     private TextField user;
     @FXML
     private PasswordField pass;
+    @FXML
+    private Button login;
     
     List<User> userList = new ArrayList<User>();
+    
     
     public void logIn() throws IOException {
         
         init();
         for(int i=0;i<userList.size();i++){
+            
             if(user.getText().equals(userList.get(i).getUsername())&&pass.getText().equals(userList.get(i).getPassword()))
             {
-                status.setText("Log in successed");
                 Main main = new Main();
                 Stage mainStage = LogIn.LogIn.getLogInStage();            
                 main.start(mainStage);
             }
+        }                  
+    }
+    
+    public void keyPress(KeyEvent keypress) throws IOException
+    {
+        if(keypress.getCode().equals(KeyCode.ENTER))
+        {
+            logIn();
         }
-        
-            status.setText("Log in failed");
-        
     }
     
     public void init(){
