@@ -131,27 +131,30 @@ public class MusicDisplay {
         boolean checkSolo = false;
         for(int i=0;i<chord.size();i++){
 
-            if(chord.get(i).equals("-")){
+            if(chord.get(i).equals("-")||chord.get(i).equals("&-")){
                     if(i%4==0)
-                        bar.add(new Bar(widthBar,heightBar,0,widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthBar,heightBar,0,(widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
                     else if(i%4==3)
-                        bar.add(new Bar(widthBar,heightBar,2,widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthBar,heightBar,2,(widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
                     else
-                        bar.add(new Bar(widthBar,heightBar,1,widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthBar,heightBar,1,(widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
             }
             else if(chord.get(i).charAt(0)=='$'){
                 soloIndex = i;
                 do{
                     checkSolo = true;
                     if(soloIndex-i%4==0)
-                        bar.add(new Bar(widthSoloBar,heightBar,6,widthEdge+(gap*i)+((soloIndex-i)*gapSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthSoloBar,heightBar,6,(widthEdge/2)+widthEdge+(gap*i)+((soloIndex-i)*gapSolo),heightEdge-heightBar,movement));
                     else if(soloIndex-i%8==7)
-                        bar.add(new Bar(widthSoloBar,heightBar,8,widthEdge+(gap*i)+((soloIndex-i)*gapSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthSoloBar,heightBar,8,(widthEdge/2)+widthEdge+(gap*i)+((soloIndex-i)*gapSolo),heightEdge-heightBar,movement));
                     else
-                        bar.add(new Bar(widthSoloBar,heightBar,7,widthEdge+(gap*i)+((soloIndex-i)*gapSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthSoloBar,heightBar,7,(widthEdge/2)+widthEdge+(gap*i)+((soloIndex-i)*gapSolo),heightEdge-heightBar,movement));
                     if(chord.get(soloIndex).charAt(0)=='['){
                         number.add(new Number(70,70,Integer.parseInt(chord.get(soloIndex).substring(3,5))-1
-                                ,widthEdge+(gap*i)+((soloIndex-i)*gapSolo),heightEdge-50-((heightBar/6)*(Integer.parseInt(chord.get(soloIndex).substring(1,2))-1)),movement));
+                                ,(widthEdge/2)+widthEdge+(gap*i)+((soloIndex-i)*gapSolo),heightEdge-50-((heightBar/6)*(Integer.parseInt(chord.get(soloIndex).substring(1,2))-1)),movement));
+                    }else if(chord.get(soloIndex).length()>1&&chord.get(soloIndex).charAt(1)=='['){
+                        number.add(new Number(70,70,Integer.parseInt(chord.get(soloIndex).substring(4,6))-1
+                                ,(widthEdge/2)+widthEdge+(gap*i)+((soloIndex-i)*gapSolo),heightEdge-50-((heightBar/6)*(Integer.parseInt(chord.get(soloIndex).substring(2,3))-1)),movement));
                     }
                     soloIndex++;
                     if(chord.get(soloIndex).length()>1){
@@ -162,34 +165,36 @@ public class MusicDisplay {
                 i = soloIndex-1;
             }
             else{
-                
-                if(chord.get(i).length()>1&&chord.get(i).charAt(1)=='#'){
-                    alphabet.add(new Alphabet(chord.get(i).substring(0, 1)+"_"+chord.get(i).substring(2,chord.get(i).length()),
-                            widthAlphabet, heightAlphabet, widthEdge+(gap*i)-(gapBar*countSolo), heightEdge-heightBar+20, movement));
+                int step = 0;
+                if(chord.get(i).charAt(0)=='&')
+                   step = 1;
+                if(chord.get(i).length()>1&&chord.get(i).charAt(1+step)=='#'){
+                    alphabet.add(new Alphabet(chord.get(i).substring(0+step, 1+step)+"_"+chord.get(i).substring(2+step,chord.get(i).length()),
+                            widthAlphabet, heightAlphabet, (widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo), heightEdge-heightBar+20, movement));
                     if(i%4==0)
-                        bar.add(new Bar(widthBar,heightBar,3,widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthBar,heightBar,3,(widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
                     else if(i%4==3)
-                        bar.add(new Bar(widthBar,heightBar,5,widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthBar,heightBar,5,(widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
                     else
-                        bar.add(new Bar(widthBar,heightBar,4,widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthBar,heightBar,4,(widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
                 }else if(chord.get(i).length()>0){
-                    alphabet.add(new Alphabet(chord.get(i),
-                            widthAlphabet, heightAlphabet, widthEdge+(gap*i)-(gapBar*countSolo), heightEdge-heightBar+20, movement));
+                    alphabet.add(new Alphabet(chord.get(i).substring(step,chord.get(i).length()),
+                            widthAlphabet, heightAlphabet, (widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo), heightEdge-heightBar+20, movement));
                     if(i%4==0)
-                        bar.add(new Bar(widthBar,heightBar,3,widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthBar,heightBar,3,(widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
                     else if(i%4==3)
-                        bar.add(new Bar(widthBar,heightBar,5,widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthBar,heightBar,5,(widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
                     else
-                        bar.add(new Bar(widthBar,heightBar,4,widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthBar,heightBar,4,(widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
                 }else{
                     if(i%4==0)
-                            bar.add(new Bar(widthBar,heightBar,0,widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
+                            bar.add(new Bar(widthBar,heightBar,0,(widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
                     else if(i%4==2)
-                        bar.add(new Bar(widthBar,heightBar,1,widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthBar,heightBar,1,(widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
                     else if(i%4==3)
-                        bar.add(new Bar(widthBar,heightBar,2,widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthBar,heightBar,2,(widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
                     else
-                        bar.add(new Bar(widthBar,heightBar,2,widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
+                        bar.add(new Bar(widthBar,heightBar,2,(widthEdge/2)+widthEdge+(gap*i)-(gapBar*countSolo),heightEdge-heightBar,movement));
                 }
                 
             }

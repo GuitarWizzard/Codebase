@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import slidingbar.Arrow;
 import slidingbar.Bar;
 import slidingbar.Number;
 
@@ -33,6 +34,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         Bar.initialize();
         Number.initialize();
+        Arrow.initialize();
         
        this.primaryStage = primaryStage;
        this.primaryStage.setTitle("Guitar Wizard");

@@ -40,10 +40,13 @@ public class SlidingBar {
     boolean checkSprite = false;
     boolean checkPause = false;
     boolean checkMute = false;
+    boolean isGreen = false;
     
     MusicDisplay song ;
     
-    Guide guide = new Guide("A");
+    Guide guide = new Guide("guitarwizard");
+    
+    Arrow arrow = new Arrow(50,50,1,widthEdge/2-25,heightEdge-heightBar-50);
     
     PauseButton pauseButton = new PauseButton();
     
@@ -64,18 +67,8 @@ public class SlidingBar {
         up.setText("+");
         down.setText("-");
         
-        //guide.setImage(song.alphabet.get(0));
-        
-        root.getChildren().addAll(new Fingerboard().img,showTime,up,down,pauseButton.img,guide.img);
-        
-        
-        //changeGuide(song.chord.get(time));
+        root.getChildren().addAll(new Fingerboard().img,pauseButton.img,guide.img,arrow.img,showTime,up,down);
 
-        /*
-        for(int i=0;i<song.chord.size();i++){
-            System.out.println(song.chord.get(i));
-        }
-        */
         for(int i=0;i<song.bar.size();i++){
             root.getChildren().add(song.bar.get(i).img);
         }
@@ -96,6 +89,8 @@ public class SlidingBar {
         primaryStage.show();
         
         song.playMusic();
+        
+        System.out.println(song.bar.size());
         
         AnimationTimer background = new AnimationTimer() {
             @Override
@@ -124,14 +119,21 @@ public class SlidingBar {
                    count=0;
                 }
                 //System.out.println(canonD.bar.get(target*4).img.getX()+","+canonD.bar.get((target+1)*4).img.getX()+"          "+target);
-                /*
-                if(song.bar.get(target).img.getX()<=0&&target<song.chord.size()){
-                    if(!song.chord.get(target).equals("-")){
-                        //changeGuide(song.chord.get(target));
+                
+                if(song.bar.get(target).img.getX()<=widthEdge/2&&target<song.chord.size()){
+                    if(isGreen){
+                        arrow.changeImage();
+                        isGreen = false;
+                        
+                    }
+                    if(!song.chord.get(target).equals("-")&&song.chord.get(target).charAt(0)!='['&&song.chord.get(target).charAt(0)!='$'&&song.chord.get(target).charAt(0)!='&'){
+                        isGreen = true;
+                        arrow.changeImage();
+                        changeGuide(song.chord.get(target));
                     }
                     target++;
                 }
-                */
+                
                 // increase and decrease button
                 up.setOnAction(new EventHandler<ActionEvent>() {
             
