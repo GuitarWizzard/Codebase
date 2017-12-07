@@ -33,7 +33,7 @@ public class mainViewController implements Initializable{
         SlidingBar songPlayer = new SlidingBar();
         Stage stage = Main.Main.getPrimaryStage();
         String song = (String) songListBox.getValue();
-        if(!song.equals(null))
+        if(song!=null)
         {
            songPlayer.play(stage,song); 
         }
