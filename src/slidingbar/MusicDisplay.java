@@ -74,6 +74,26 @@ public class MusicDisplay {
         normalSpeed+=(defaultSpeed*0.25);
         mediaPlayer.setRate(normalSpeed);
     }
+     
+    public void decreaseSpeed(){
+        for(int i=0;i<bar.size();i++){
+            bar.get(i).decreaseSpeed();
+        }
+        for(int i=0;i<alphabet.size();i++){
+            alphabet.get(i).decreaseSpeed();
+        }
+        decreasePlaybackSpeed();
+    }
+    
+    public void increaseSpeed(){
+        for(int i=0;i<bar.size();i++){
+            bar.get(i).increaseSpeed();
+        }
+        for(int i=0;i<alphabet.size();i++){
+            alphabet.get(i).increaseSpeed();
+        }
+        increasePlaybackSpeed();
+    }
     
     public void decreasePlaybackSpeed(){
         normalSpeed-=(defaultSpeed*0.25);

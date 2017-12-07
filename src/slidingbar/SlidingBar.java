@@ -165,16 +165,10 @@ public class SlidingBar {
                     checkPause=!checkPause;
                     break;
                 case "X":
-                    song.increasePlaybackSpeed();
-                    for(int i=0;i<song.bar.size();i++){
-                        song.bar.get(i).increaseSpeed();
-                    }
+                    song.increaseSpeed();
                     break;
                 case "Z":
-                    song.decreasePlaybackSpeed();
-                    for(int i=0;i<song.bar.size();i++){
-                        song.bar.get(i).decreaseSpeed();
-                    }
+                    song.decreaseSpeed();
                     break;
                 case "M":
                     checkMute=!checkMute;
