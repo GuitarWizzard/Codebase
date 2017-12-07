@@ -14,21 +14,8 @@ public class PauseButton {
         count = false;
         img.setFitHeight(100);
         img.setFitWidth(100);
-        img.setY(heightEdge/2);
+        img.setY(heightEdge/2-20);
         img.setX((widthEdge/2)-50);
-    }
-    
-    public void spriteButton(){
-        if(count){
-            img = new ImageView(new Image("/slidingbar/pause_button_1.png"));
-        }else if(!count){
-            img = new ImageView(new Image("/slidingbar/pause_button_2.png"));
-        }
-        img.setFitHeight(100);
-        img.setFitWidth(100);
-        img.setY(heightEdge/2);
-        img.setX((widthEdge/2)-50);
-        count = !count;
     }
     
     public void muteButton(){

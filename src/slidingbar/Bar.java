@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import static slidingbar.SlidingBar.widthBar;
 
 public class Bar {
     
@@ -24,12 +25,12 @@ public class Bar {
         defaultMovement = movement; 
     }
     
-    public void increaseSpeed(){
-        movement += defaultMovement * 0.25;
+    public void increaseSpeed(int bpm){
+        movement=(((bpm/2)*widthBar)/60)/60;
     }
     
-    public void decreaseSpeed(){
-        movement -= defaultMovement * 0.25;
+    public void decreaseSpeed(int bpm){
+        movement=(((bpm/2)*widthBar)/60)/60;
     }
     
     public void slide(){

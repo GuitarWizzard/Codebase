@@ -1,6 +1,13 @@
 
 package LogIn;
 
+import Chord.AChord;
+import Chord.BChord;
+import Chord.CChord;
+import Chord.DChord;
+import Chord.EChord;
+import Chord.FChord;
+import Chord.GChord;
 import Database.Connection;
 import Main.AddSample;
 import java.io.IOException;
@@ -10,6 +17,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import slidingbar.Arrow;
+import slidingbar.Bar;
+import slidingbar.Number;
 
 
 
@@ -25,7 +35,16 @@ public class LogIn extends Application{
     public void start(Stage primaryStage) throws IOException {
         
         connect.connect();
-        
+        Bar.initialize();
+        Number.initialize();
+        Arrow.initialize();
+        AChord.initialize();
+        BChord.initialize();
+        CChord.initialize();
+        DChord.initialize();
+        EChord.initialize();
+        FChord.initialize();
+        GChord.initialize();
         //AddSample sample = new AddSample();
         //sample.start();
         

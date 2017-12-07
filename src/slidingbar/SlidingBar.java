@@ -21,6 +21,19 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import Chord.AChord;
+import Chord.AllChord;
+import Chord.BChord;
+import Chord.CChord;
+import Chord.DChord;
+import Chord.EChord;
+import Chord.FChord;
+import Chord.GChord;
+import Main.Main;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.layout.Background;
 
 public class SlidingBar {
     static double heightBar = 200;
@@ -37,14 +50,29 @@ public class SlidingBar {
     int time = 0;
     int target = 0;
     int barTarget =0;
+    int state = 6;
     boolean checkSprite = false;
     boolean checkPause = false;
     boolean checkMute = false;
     boolean isGreen = false;
+    boolean endSong = false;
     
     MusicDisplay song ;
     
-    Guide guide = new Guide("guitarwizard");
+    Pane root = new Pane();
+    
+    Button up = new Button();
+    Button down = new Button();
+    
+    Label showTime = new Label();
+    
+    AChord Aguide = new AChord(0);
+    BChord Bguide = new BChord(0);
+    CChord Cguide = new CChord(0);
+    DChord Dguide = new DChord(0);
+    EChord Eguide = new EChord(0);
+    FChord Fguide = new FChord(0);
+    GChord Gguide = new GChord(0);
     
     Arrow arrow = new Arrow(50,50,1,widthEdge/2-25,heightEdge-heightBar-50);
     
@@ -52,22 +80,18 @@ public class SlidingBar {
     
     public void play(Stage primaryStage,String songName) {
         
-        Pane root = new Pane();
-        
         song = new MusicDisplay(songName);
         
-        Label showTime = new Label();
         setLabel(showTime, 15, 15);
         showTime.setText(""+time);
         
-        Button up = new Button();
-        Button down = new Button();
         setButton(up, 50, 15);
         setButton(down,50,45);
         up.setText("+");
         down.setText("-");
         
-        root.getChildren().addAll(new Fingerboard().img,pauseButton.img,guide.img,arrow.img,showTime,up,down);
+        
+        root.getChildren().addAll(new Fingerboard().img,Gguide.img,arrow.img,showTime,up,down);
 
         for(int i=0;i<song.bar.size();i++){
             root.getChildren().add(song.bar.get(i).img);
@@ -90,11 +114,20 @@ public class SlidingBar {
         
         song.playMusic();
         
-        System.out.println(song.bar.size());
-        
         AnimationTimer background = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                //205505.306122
+                if(song.mediaPlayer.getCurrentTime().equals(song.mediaPlayer.getTotalDuration())&&!endSong){
+                    Main main = new Main();
+                    Stage mainStage = LogIn.LogIn.getLogInStage();            
+                    try {
+                        main.start(mainStage);
+                    } catch (IOException ex) {
+                        Logger.getLogger(SlidingBar.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    endSong = true;
+                }
                 // update label
                 showTime.setText("x"+song.normalSpeed);
                 // time
@@ -120,7 +153,7 @@ public class SlidingBar {
                 }
                 //System.out.println(canonD.bar.get(target*4).img.getX()+","+canonD.bar.get((target+1)*4).img.getX()+"          "+target);
                 
-                if(song.bar.get(target).img.getX()<=widthEdge/2&&target<song.chord.size()){
+                if(target<song.chord.size()&&song.bar.get(target).img.getX()<=widthEdge/2){
                     if(isGreen){
                         arrow.changeImage();
                         isGreen = false;
@@ -129,8 +162,30 @@ public class SlidingBar {
                     if(!song.chord.get(target).equals("-")&&song.chord.get(target).charAt(0)!='['&&song.chord.get(target).charAt(0)!='$'&&song.chord.get(target).charAt(0)!='&'){
                         isGreen = true;
                         arrow.changeImage();
+                        if(state!=0)
+                            root.getChildren().remove(Aguide.img);
+                        if(state!=1)
+                            root.getChildren().remove(Bguide.img);
+                        if(state!=2)
+                            root.getChildren().remove(Cguide.img);
+                        if(state!=3)
+                            root.getChildren().remove(Dguide.img);
+                        if(state!=4)
+                            root.getChildren().remove(Eguide.img);
+                        if(state!=5)
+                            root.getChildren().remove(Fguide.img);
+                        if(state!=6)
+                            root.getChildren().remove(Gguide.img);
+                        
                         changeGuide(song.chord.get(target));
                     }
+                    if(song.chord.get(target).charAt(0)=='['){
+                        isGreen = true;
+                    }
+                    if(song.chord.get(target).length()>1&&song.chord.get(target).charAt(1)=='['){
+                        isGreen = true;
+                    }
+                        
                     target++;
                 }
                 
@@ -164,18 +219,18 @@ public class SlidingBar {
             
             switch(keyEvent.getCode().toString()){
                 case "P":
-                    if(pauseButton.count)
-                        song.mediaPlayer.play();
-                    else
-                        song.mediaPlayer.pause();
                     if(checkMute&&checkPause){
                         checkMute=!checkMute;
                         song.mediaPlayer.setMute(checkMute);
                     }
-                    root.getChildren().remove(pauseButton.img);
-                    pauseButton.spriteButton();
-                    root.getChildren().add(pauseButton.img);
                     checkPause=!checkPause;
+                    if(checkPause){
+                        root.getChildren().add(pauseButton.img);
+                        song.mediaPlayer.pause();
+                    }else if(!checkPause){
+                        root.getChildren().remove(pauseButton.img);
+                        song.mediaPlayer.play();
+                    }
                     break;
                 case "X":
                     song.increaseSpeed();
@@ -196,6 +251,10 @@ public class SlidingBar {
         
         background.start();
         
+        if(endSong){
+            background.stop();
+        }
+        
     }
     
     public void setLabel(Label label,double x,double y){
@@ -211,13 +270,78 @@ public class SlidingBar {
     }
     
     public void changeGuide(String name){
-        if(name.length()>1&&name.charAt(1)=='#'){
-            guide.setImage(name.substring(0, 1)+"_"+name.substring(2,name.length()));
+        String newName = "";
+        boolean checkDone = false;
+        if(name.charAt(0)=='A'){
+            if(name.length()>1&&name.charAt(1)=='#'){
+                newName = name.substring(0, 1)+"_"+name.substring(2,name.length());
+            }else{
+                newName = name;
+            }
+            Aguide = new AChord(AChord.getChord(newName));
+            checkDone=true;
+            root.getChildren().add(Aguide.img);
+        }else if(name.charAt(0)=='B'){
+            if(name.length()>1&&name.charAt(1)=='#'){
+                newName = name.substring(0, 1)+"_"+name.substring(2,name.length());
+            }else{
+                newName = name;
+            }
+            Bguide = new BChord(BChord.getChord(newName));
+            checkDone=true;
+            root.getChildren().add(Bguide.img);
+        }else if(name.charAt(0)=='C'){
+            if(name.length()>1&&name.charAt(1)=='#'){
+                newName = name.substring(0, 1)+"_"+name.substring(2,name.length());
+            }else{
+                newName = name;
+            }
+            Cguide = new CChord(CChord.getChord(newName));
+            checkDone=true;
+            root.getChildren().add(Cguide.img);
+        }else if(name.charAt(0)=='D'){
+            if(name.length()>1&&name.charAt(1)=='#'){
+                newName = name.substring(0, 1)+"_"+name.substring(2,name.length());
+            }else{
+                newName = name;
+            }
+            Dguide = new DChord(DChord.getChord(newName));
+            checkDone=true;
+            root.getChildren().add(Dguide.img);
+        }else if(name.charAt(0)=='E'){
+            
+            if(name.length()>1&&name.charAt(1)=='#'){
+                newName = name.substring(0, 1)+"_"+name.substring(2,name.length());
+            }else{
+                newName = name;
+            }
+            Eguide = new EChord(EChord.getChord(newName));
+            checkDone=true;
+            root.getChildren().add(Eguide.img);
+        }else if(name.charAt(0)=='F'){
+            if(name.length()>1&&name.charAt(1)=='#'){
+                newName = name.substring(0, 1)+"_"+name.substring(2,name.length());
+            }else{
+                newName = name;
+            }
+            Fguide = new FChord(FChord.getChord(newName));
+            checkDone=true;
+            root.getChildren().add(Fguide.img);
+        }else if(name.charAt(0)=='G'){
+            if(name.length()>1&&name.charAt(1)=='#'){
+                newName = name.substring(0, 1)+"_"+name.substring(2,name.length());
+            }else{
+                newName = name;
+            }
+            Gguide = new GChord(GChord.getChord(newName));
+            checkDone=true;
+            root.getChildren().add(Gguide.img);
         }else if(name.equals("-")){
             
         }
-        else{
-            guide.setImage(name);
+        if(checkDone){
+            root.getChildren().removeAll(up,down,showTime,arrow.img);
+            root.getChildren().addAll(up,down,showTime,arrow.img);
         }
             
     }

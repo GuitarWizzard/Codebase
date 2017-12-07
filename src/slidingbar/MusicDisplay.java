@@ -43,6 +43,7 @@ public class MusicDisplay {
     public double normalSpeed;
     public double defaultSpeed=1.0;
     public int bpm;
+    public int bpmDefualt;
     public double movement;
     boolean pause;
     
@@ -52,6 +53,7 @@ public class MusicDisplay {
             this.name = name;
             subString(musicList.get(index).getChord());
             bpm = musicList.get(index).getBpm();
+            bpmDefualt = bpm;
             movement = (((bpm/2)*widthBar)/60)/60;
             downloadMusic(name);
             normalSpeed = 1.0;
@@ -80,21 +82,29 @@ public class MusicDisplay {
     }
      
     public void decreaseSpeed(){
+        bpm-=bpmDefualt*0.25;
         for(int i=0;i<bar.size();i++){
-            bar.get(i).decreaseSpeed();
+            bar.get(i).decreaseSpeed(bpm);
         }
         for(int i=0;i<alphabet.size();i++){
-            alphabet.get(i).decreaseSpeed();
+            alphabet.get(i).decreaseSpeed(bpm);
+        }
+        for(int i=0;i<number.size();i++){
+            number.get(i).decreaseSpeed(bpm);
         }
         decreasePlaybackSpeed();
     }
     
     public void increaseSpeed(){
+        bpm+=bpmDefualt*0.25;
         for(int i=0;i<bar.size();i++){
-            bar.get(i).increaseSpeed();
+            bar.get(i).increaseSpeed(bpm);
         }
         for(int i=0;i<alphabet.size();i++){
-            alphabet.get(i).increaseSpeed();
+            alphabet.get(i).increaseSpeed(bpm);
+        }
+        for(int i=0;i<number.size();i++){
+            number.get(i).decreaseSpeed(bpm);
         }
         increasePlaybackSpeed();
     }

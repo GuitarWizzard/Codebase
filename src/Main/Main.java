@@ -32,9 +32,7 @@ public class Main extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Bar.initialize();
-        Number.initialize();
-        Arrow.initialize();
+        
         
        this.primaryStage = primaryStage;
        this.primaryStage.setTitle("Guitar Wizard");
