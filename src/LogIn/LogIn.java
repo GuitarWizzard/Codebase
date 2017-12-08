@@ -48,6 +48,8 @@ public class LogIn extends Application{
         //AddSample sample = new AddSample();
         //sample.start();
         
+        primaryStage.setResizable(false);
+        
        this.logInStage = primaryStage;
        this.logInStage.setTitle("Guitar Wizard");
        showLogInView();

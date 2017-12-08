@@ -36,6 +36,7 @@ public class Main extends Application {
         
        this.primaryStage = primaryStage;
        this.primaryStage.setTitle("Guitar Wizard");
+       primaryStage.setResizable(false);
        showMainView();
     }
 

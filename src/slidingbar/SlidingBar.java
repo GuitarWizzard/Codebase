@@ -105,11 +105,11 @@ public class SlidingBar {
             root.getChildren().add(song.number.get(i).img);
         }
         
-        Scene scene = new Scene(root, 700, 700);
+        Scene scene = new Scene(root, 680, 698);
         
         primaryStage.setTitle("Guitar Wizard");
         primaryStage.setScene(scene);
-        //primaryStage.setResizable(false);
+        primaryStage.setResizable(false);
         primaryStage.show();
         
         song.playMusic();
